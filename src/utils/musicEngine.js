@@ -156,6 +156,11 @@ class GlobalAudioManager {
 
   setSection(section) {
     const previous = this.snapshot.currentSection;
+    this.musicVolume = clamp(
+      AUDIO_CONFIG.sectionVolumes?.[section] ?? AUDIO_CONFIG.musicVolume,
+      AUDIO_CONFIG.minMusicVolume,
+      AUDIO_CONFIG.maxMusicVolume,
+    );
     this.updateSnapshot({ currentSection: section });
     if (!this.snapshot.muted && this.snapshot.unlocked) this.switchMusic(section);
     if (section === 'stage10' && previous !== 'stage10' && !this.snapshot.muted) {

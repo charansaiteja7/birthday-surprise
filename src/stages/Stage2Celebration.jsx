@@ -67,64 +67,66 @@ function PandaPhaseAsset({ phase, candlesBlown }) {
 
   return (
     <div className="premium-panda">
-      <AnimatePresence initial={false}>
-        <motion.img
-          key={visiblePhase}
-          className={`panda-phase-asset panda-asset-${visiblePhase}`}
-          src={PANDA_ASSETS[visiblePhase]}
-          alt={PHASE_LABELS[visiblePhase]}
-          initial={{
-            opacity: 0,
-            x: pose.x,
-            y: pose.y,
-            rotate: pose.rotate,
-            scaleX: 0.95,
-            scaleY: 1.045,
-          }}
-          animate={{
-            opacity: 1,
-            x: [pose.x, pose.x * 0.15, 0],
-            y: [pose.y, -6, 0],
-            rotate: [pose.rotate, pose.rotate * -0.2, 0],
-            scaleX: [0.95, 1.025, 1],
-            scaleY: [1.045, 0.98, 1],
-          }}
-          exit={{
-            opacity: 0,
-            x: pose.x * -0.18,
-            y: -8,
-            rotate: pose.rotate * -0.35,
-            scaleX: 1.018,
-            scaleY: 0.985,
-          }}
-          transition={{ duration: 0.96, times: [0, 0.58, 1], ease: [0.22, 1, 0.36, 1] }}
-          draggable="false"
-        />
-      </AnimatePresence>
+      <div className="panda-asset-frame">
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={visiblePhase}
+            className={`panda-phase-asset panda-asset-${visiblePhase}`}
+            src={PANDA_ASSETS[visiblePhase]}
+            alt={PHASE_LABELS[visiblePhase]}
+            initial={{
+              opacity: 0,
+              x: pose.x,
+              y: pose.y,
+              rotate: pose.rotate,
+              scaleX: 0.95,
+              scaleY: 1.045,
+            }}
+            animate={{
+              opacity: 1,
+              x: [pose.x, pose.x * 0.15, 0],
+              y: [pose.y, -6, 0],
+              rotate: [pose.rotate, pose.rotate * -0.2, 0],
+              scaleX: [0.95, 1.025, 1],
+              scaleY: [1.045, 0.98, 1],
+            }}
+            exit={{
+              opacity: 0,
+              x: pose.x * -0.18,
+              y: -8,
+              rotate: pose.rotate * -0.35,
+              scaleX: 1.018,
+              scaleY: 0.985,
+            }}
+            transition={{ duration: 0.96, times: [0, 0.58, 1], ease: [0.22, 1, 0.36, 1] }}
+            draggable="false"
+          />
+        </AnimatePresence>
 
-      <AnimatePresence>
-        {showFlameOverlay && (
-          <motion.div className="panda-flame-overlay" aria-hidden="true" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 1 }}>
-            {[44, 50, 56].map((left, index) => (
-              <motion.i
-                key={left}
-                style={{ left: `${left}%`, '--flame-offset': index }}
-                initial={{ opacity: 0, scale: 0.5, y: 5 }}
-                animate={{ opacity: [0.72, 1, 0.82], scale: [0.86, 1.08, 0.92], y: [1, -2, 0] }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.18,
-                  x: 7,
-                  y: 8,
-                  rotate: 24,
-                  transition: { duration: 0.38, delay: index * 0.15, ease: 'easeIn' },
-                }}
-                transition={{ duration: 0.7 + index * 0.11, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
-              />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <AnimatePresence>
+          {showFlameOverlay && (
+            <motion.div className="panda-flame-overlay" aria-hidden="true" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 1 }}>
+              {[44, 50, 56].map((left, index) => (
+                <span className="panda-candle-flame" key={left} style={{ left: `${left}%` }}>
+                  <motion.i
+                    initial={{ opacity: 0, scale: 0.5, y: 5 }}
+                    animate={{ opacity: [0.72, 1, 0.82], scale: [0.86, 1.08, 0.92], y: [1, -2, 0] }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0.18,
+                      x: 7,
+                      y: 8,
+                      rotate: 24,
+                      transition: { duration: 0.38, delay: index * 0.15, ease: 'easeIn' },
+                    }}
+                    transition={{ duration: 0.7 + index * 0.11, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                  />
+                </span>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

@@ -6,6 +6,19 @@ export const AUDIO_CONFIG = {
   fadeOutDuration: 800,
   fadeInDuration: 1000,
 
+  sectionVolumes: {
+    password: 0.54,
+    opening: 0.55,
+    stage2: 0.62,
+    stage2_birthday: 0.62,
+    stage4: 0.48,
+    stage5: 0.53,
+    stage7: 0.53,
+    stage8: 0.54,
+    stage9: 0.61,
+    stage10: 0.65,
+  },
+
   music: {
     opening: '/audio/music/opening.mp3',
     playful: '/audio/music/playful.mp3',

@@ -37,7 +37,7 @@ export default function PasswordGate({ onUnlock }) {
         >
           🔐
         </motion.div>
-        <h1>For my Chitti thalli 💖</h1>
+        <h1>For my Chitti thalli💖🥰🧿</h1>
         <p>{CONTENT.password.hint}</p>
         <div className="password-field">
           <input

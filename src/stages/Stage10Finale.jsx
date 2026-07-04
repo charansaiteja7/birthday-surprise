@@ -216,7 +216,13 @@ function FinaleFireworksCanvas({ active }) {
     };
   }, [active]);
 
-  return <canvas ref={canvasRef} className="finale-fireworks-canvas" aria-hidden="true" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className={`finale-fireworks-canvas${active ? ' is-active' : ''}`}
+      aria-hidden="true"
+    />
+  );
 }
 
 export default function Stage10Finale({ onRestart }) {
@@ -244,12 +250,14 @@ export default function Stage10Finale({ onRestart }) {
     const confettiTimer = window.setInterval(launchConfetti, 680);
     const confettiStop = window.setTimeout(() => window.clearInterval(confettiTimer), 2550);
     const fireworksStart = window.setTimeout(() => setShowFireworks(true), 650);
+    const fireworksStop = window.setTimeout(() => setShowFireworks(false), 14000);
     const signatureTimer = window.setTimeout(() => setShowSignature(true), 4000);
 
     return () => {
       window.clearInterval(confettiTimer);
       window.clearTimeout(confettiStop);
       window.clearTimeout(fireworksStart);
+      window.clearTimeout(fireworksStop);
       window.clearTimeout(signatureTimer);
     };
   }, []);
@@ -268,23 +276,29 @@ export default function Stage10Finale({ onRestart }) {
   }, [muted, showFireworks]);
 
   useEffect(() => {
-    const startVolume = musicEngine.volume;
-    const endVolume = Math.max(0.12, startVolume * 0.32);
-    const fadeDuration = 10000;
-    const startTime = performance.now();
     let animationFrame;
+    let fadeStartTimer;
 
-    const fadeMusic = (now) => {
-      const progress = Math.min((now - startTime) / fadeDuration, 1);
-      const eased = 1 - ((1 - progress) ** 2);
-      musicEngine.setVolume(startVolume + ((endVolume - startVolume) * eased));
-      if (progress < 1) animationFrame = window.requestAnimationFrame(fadeMusic);
+    const beginFade = () => {
+      const startVolume = musicEngine.volume;
+      const endVolume = Math.max(0.12, startVolume * 0.32);
+      const fadeDuration = 10000;
+      const startTime = performance.now();
+
+      const fadeMusic = (now) => {
+        const progress = Math.min((now - startTime) / fadeDuration, 1);
+        const eased = 1 - ((1 - progress) ** 2);
+        musicEngine.setVolume(startVolume + ((endVolume - startVolume) * eased));
+        if (progress < 1) animationFrame = window.requestAnimationFrame(fadeMusic);
+      };
+
+      animationFrame = window.requestAnimationFrame(fadeMusic);
     };
 
-    animationFrame = window.requestAnimationFrame(fadeMusic);
+    fadeStartTimer = window.setTimeout(beginFade, 3200);
     return () => {
+      window.clearTimeout(fadeStartTimer);
       window.cancelAnimationFrame(animationFrame);
-      musicEngine.setVolume(startVolume);
     };
   }, []);
 

@@ -70,7 +70,7 @@ function Journey() {
           initial={{ opacity: 0, scale: 0.98, filter: 'blur(4px)' }}
           animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
           exit={{ opacity: 0, scale: 0.98, filter: 'blur(4px)' }}
-          transition={{ duration: 0.42, ease: 'easeInOut' }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
           <Stage
             onUnlock={actions.unlock}
